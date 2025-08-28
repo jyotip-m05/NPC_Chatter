@@ -10,6 +10,7 @@ namespace Script
 
         [Header("Control")] [SerializeField] private float speed = 5f;
         [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private LayerMask NPCLayer;
         [SerializeField] private InputActionAsset inputAction;
         [SerializeField] private float jumpForce = 5f;
         [SerializeField] private float sprintSpeed = 10f;
@@ -29,7 +30,7 @@ namespace Script
         private Vector3 velocity;
         private bool isSprinting = false;
         private Animator animator;
-        private int NPCLayerMask;
+        private int npcLayerMask1;
         private Vector3 adjust;
         private InputActionMap playerActionMap;
         private InputActionMap UIActionMap;
@@ -72,7 +73,7 @@ namespace Script
             sprintAction = inputAction.FindActionMap("Player").FindAction("Sprint");
             characterController = GetComponent<CharacterController>();
             animator = GetComponent<Animator>();
-            NPCLayerMask = LayerMask.GetMask("NPC");
+            npcLayerMask1 = NPCLayer.value;
             adjust = new Vector3(0, adjustedHeight, 0);
             playerActionMap = inputAction.FindActionMap("Player");
             UIActionMap = inputAction.FindActionMap("UI");
@@ -90,6 +91,7 @@ namespace Script
 
         private void Interaction()
         {
+            // Debug.Log("Interaction");
             if (interactAction.triggered)
             {
                 if (curr)
@@ -107,9 +109,9 @@ namespace Script
             }
         }
         
-        private void OntriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (((1 << other.gameObject.layer) & NPCLayerMask) != 0)
+            if (((1 << other.gameObject.layer) & npcLayerMask1) != 0)
             {
                 Debug.Log("Enter NPC Trigger");
                 curr = other.GetComponent<NPC>();
@@ -118,13 +120,10 @@ namespace Script
         
         private void OnTriggerExit(Collider other)
         {
-            if (((1 << other.gameObject.layer) & NPCLayerMask) != 0)
+            if (((1 << other.gameObject.layer) & npcLayerMask1) != 0)
             {
                 Debug.Log("Exit NPC Trigger");
-                if (curr && other.GetComponent<NPC>() == curr)
-                {
-                    curr = null;
-                }
+                curr = null;
             }
         }
 
