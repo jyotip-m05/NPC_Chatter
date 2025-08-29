@@ -17,4 +17,16 @@ namespace Script
             this.answer = answer;
         }
     }
+
+    [Serializable]
+    public struct Chat
+    {
+        [SerializeField] public string massage;
+        [SerializeField] public int side; // 0 left, 1 right
+        public Chat(string massage, int side)
+        {
+            this.massage = massage;
+            this.side = side;
+        }
+    }
 }

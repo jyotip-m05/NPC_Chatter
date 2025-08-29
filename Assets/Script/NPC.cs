@@ -9,6 +9,7 @@ public class NPC : MonoBehaviour
 
     [SerializeField] private Animator animator;
     [SerializeField] private List<Talk> talks;
+    [SerializeField] private List<Chat> chats;
     [SerializeField] private InputActionAsset inputAction;
     [SerializeField] private GameObject player;
     
@@ -38,6 +39,6 @@ public class NPC : MonoBehaviour
         UIActionMap.Enable();
         var insatnce = DialogManager.GetInstance();
         insatnce.Talks = talks;
-        insatnce.OpenWindow(this.gameObject, animator);
+        insatnce.OpenWindow(this.gameObject, animator, chats);
     }
 }
